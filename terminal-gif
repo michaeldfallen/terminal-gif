@@ -1,0 +1,41 @@
+scriptDir="$( dirname "$0" )"
+absDir="$(cd "$scriptDir"; pwd)"
+thisDir="$(pwd)"
+
+usage() {
+	echo `basename $0`: ERROR: $* 1>&2
+	echo "usage: `basename $0` [-r file] - start a recording to create a gif at [file]"
+	exit 1
+}
+
+record() {
+  file=$1
+  if [[ -z "$file" ]]; then
+    usage "no filename provided"
+  fi
+
+  if [[ "$file" != *.gif* ]]; then
+    usage "filename must end in .gif"
+  fi
+
+  recordFile="$absDir/$1.record"
+  tempDir="$absDir/$1.temp"
+  gif="$thisDir/$1"
+  ttygif="$absDir/ttygif/ttygif"
+  concat="$absDir/ttygif/concat_osx.sh"
+
+  echo "Starting recording. Type exit to finish."
+  ttyrec $recordFile
+  echo "Finished recording. Creating gif $1"
+
+  #Create images from ttyrec recording and delete recording
+  mkdir $tempDir
+  (cd $tempDir; $ttygif $recordFile)
+  rm $recordFile
+
+  (cd $tempDir; $concat $gif)
+
+  rm -r $tempDir
+}
+
+record $1

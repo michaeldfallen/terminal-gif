@@ -1,3 +1,5 @@
+#!/bin/sh
+
 scriptDir="$( dirname "$0" )"
 absDir="$(cd "$scriptDir"; pwd)"
 thisDir="$(pwd)"
@@ -6,6 +8,17 @@ usage() {
 	echo `basename $0`: ERROR: $* 1>&2
 	echo "usage: `basename $0` [-r file] - start a recording to create a gif at [file]"
 	exit 1
+}
+
+init() {
+  ttygifDir="$absDir/ttygif"
+  if [[ -z "$(ls $ttygifDir)" ]]; then
+    echo "initialising ttygif"
+    (cd $absDir ; git submodule init; git submodule update) > /dev/null
+    echo "making ttygif"
+    (cd $ttygifDir ; make) > /dev/null
+    echo "done"
+  fi
 }
 
 record() {
@@ -37,5 +50,7 @@ record() {
 
   rm -r $tempDir
 }
+
+init
 
 record $1

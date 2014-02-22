@@ -15,10 +15,20 @@ init() {
   if [[ -z "$(ls $ttygifDir)" ]]; then
     echo "initialising ttygif"
     (cd $absDir ; git submodule init; git submodule update) > /dev/null
-    echo "making ttygif"
-    (cd $ttygifDir ; make) > /dev/null
     echo "done"
   fi
+
+  if [[ ! -f "$ttygifDir/ttygif" ]]; then
+    echo "making ttygif"
+    (cd $ttygifDir ; make)
+    echo "done"
+  fi
+}
+
+installToPath() {
+  echo "$absDir/$0 \"\$@\"" > /usr/local/bin/terminal-gif
+  chmod a+x /usr/local/bin/terminal-gif
+  echo "installed into /usr/local/bin"
 }
 
 record() {
@@ -35,7 +45,7 @@ record() {
   tempDir="$absDir/$1.temp"
   gif="$thisDir/$1"
   ttygif="$absDir/ttygif/ttygif"
-  concat="$absDir/ttygif/concat_osx.sh"
+  concat="$absDir/ttygif/concat.sh"
 
   echo "Starting recording. Type exit to finish."
   ttyrec $recordFile
@@ -53,4 +63,7 @@ record() {
 
 init
 
-record $1
+case $1 in 
+  install) installToPath ;;
+  *) record $@ ;;
+esac

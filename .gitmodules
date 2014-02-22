@@ -1,0 +1,3 @@
+[submodule "ttygif"]
+	path = ttygif
+	url = git@github.com:michaeldfallen/ttygif.git

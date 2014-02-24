@@ -10,6 +10,18 @@ usage() {
 	exit 1
 }
 
+require() {
+  dependancy=$2
+  if [[ -z $dependancy ]]; then
+    dependancy=$1
+  fi
+  hash $1 2>/dev/null || { 
+    echo >&2 "$1 required but it's not installed.";
+    echo >&2 "run \`brew install $dependancy\` then try again.";
+    exit 1; 
+  }
+}
+
 init() {
   ttygifDir="$absDir/ttygif"
   if [[ -z "$(ls $ttygifDir)" ]]; then
@@ -26,7 +38,7 @@ init() {
 }
 
 installToPath() {
-  echo "$absDir/$0 \"\$@\"" > /usr/local/bin/terminal-gif
+  echo "$absDir/terminal-gif \"\$@\"" > /usr/local/bin/terminal-gif
   chmod a+x /usr/local/bin/terminal-gif
   echo "installed into /usr/local/bin"
 }
@@ -62,6 +74,9 @@ record() {
 }
 
 init
+
+require "convert" "imagemagick"
+require "ttyrec"
 
 case $1 in 
   install) installToPath ;;

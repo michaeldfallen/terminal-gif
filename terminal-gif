@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 scriptDir="$( dirname "$0" )"
 absDir="$(cd "$scriptDir"; pwd)"

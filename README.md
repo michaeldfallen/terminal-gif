@@ -16,7 +16,7 @@ I've only tested it on OSX so any contributions or bugfixes welcome.
 
 brew install imagemagick
 brew install ttyrec
-git clone git@github.com:michaeldfallen/terminal-gif.git
+git clone https://github.com/michaeldfallen/terminal-gif.git
 
 
 ```

@@ -6,7 +6,7 @@ I've only tested it on OSX so any contributions or bugfixes welcome.
 
 ##Demo
 
-![Demo of using terminal-gif](https://raw2.github.com/michaeldfallen/terminal-gif/master/demo.gif)
+![Demo of using terminal-gif](https://raw.githubusercontent.com/michaeldfallen/terminal-gif/master/demo.gif)
 
 ##Installation
 
